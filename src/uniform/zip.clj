@@ -45,6 +45,11 @@
   (= :whitespace
      (r.zip/tag zloc)))
 
+(defn comment?
+  [zloc]
+  (= :comment
+     (r.zip/tag zloc)))
+
 (defn node-str
   [zloc]
   (r.node/string (r.zip/node zloc)))
