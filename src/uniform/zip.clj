@@ -77,15 +77,3 @@
     (and
       (= :list (some-> up-zloc (r.zip/tag)))
       (= :quote (some-> up-zloc (r.zip/up) (r.zip/tag))))))
-
-(defn get-indent
-  [zloc]
-  (count (previous-line zloc)))
-
-(defn move-to-root
-  [loc]
-  (loop [loc loc]
-    (if-let [loc' (r.zip/up loc)]
-      (recur loc')
-      loc)))
-
