@@ -194,3 +194,10 @@
                 (h/next-linebreak)
                 (sut/indent)
                 (h/root-str)))))
+
+(t/deftest indent-with-multibyte-string-test
+  (t/is (= "(日本語 [foo\n         bar])"
+           (->> (h/parse "(日本語 [foo\nbar])")
+                (h/next-linebreak)
+                (sut/indent)
+                (h/root-str)))))
