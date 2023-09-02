@@ -9,6 +9,16 @@
   [zloc]
   (r.zip/find-value zloc r.zip/next 'TARGET))
 
+(t/deftest whitespace?-test
+  (let [whitespace?-test #(->
+                            (h/parse %)
+                            (r.zip/next*)
+                            (sut/whitespace?))]
+    (t/is (false? (whitespace?-test "foo")))
+    (t/is (true? (whitespace?-test " ")))
+    (t/is (true? (whitespace?-test "  ")))
+    (t/is (true? (whitespace?-test "\t")))))
+
 (t/deftest previous-line-test
   (t/is (= ""
            (-> (h/parse "(\nfoo\nbar\nbaz)")
@@ -57,7 +67,3 @@
   (t/is (false? (-> (h/parse "(foo TARGET)")
                     (next-target)
                     (sut/quoted-list?)))))
-
-(-> (h/parse "(foo (bar(baz))\nhello)")
-    (h/skip-non-linebreak)
-    (sut/previous-line))
