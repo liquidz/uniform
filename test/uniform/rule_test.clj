@@ -45,7 +45,13 @@
       "(foo\n   bar)")
     (test-rule*
       "\"foo   bar\""
-      "\"foo   bar\"")))
+      "\"foo   bar\"")
+    (test-rule*
+      "(foo)"
+      "(foo)   ")
+    (test-rule*
+      "(foo bar)"
+      "(foo bar  )")))
 
 (t/deftest too-many-linebreaks-test
   (let [test-rule* (partial test-rule sut/too-many-linebreaks)]
