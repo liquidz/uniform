@@ -92,3 +92,17 @@
     (test-rule*
       "foo\nbar"
       "foo,\nbar")))
+
+(t/deftest hard-tab-to-space-test
+  (let [test-rule* (partial test-rule sut/hard-tab-to-space)]
+    (test-rule*
+      "foo bar"
+      "foo\tbar")
+
+    (test-rule*
+      "foo bar"
+      "foo  \t\t  bar")
+
+    (test-rule*
+      "\"foo\tbar\""
+      "\"foo\tbar\"")))

@@ -9,6 +9,7 @@
   (-> code
       (r.parser/parse-string-all)
       (u.rule/apply-rules [u.rule/missing-whitespace
+                           u.rule/hard-tab-to-space
                            u.rule/too-many-spaces
                            u.rule/too-many-linebreaks
                            u.rule/comma])

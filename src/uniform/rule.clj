@@ -1,5 +1,6 @@
 (ns uniform.rule
   (:require
+    [clojure.string :as str]
     [rewrite-clj.node :as r.node]
     [rewrite-clj.zip :as r.zip]
     [rewrite-clj.zip.whitespace :as r.z.whitespace]
@@ -34,6 +35,21 @@
            (if (r.zip/left* zloc)
              (r.zip/replace* zloc (r.node/newlines 1))
              (r.zip/remove* zloc)))})
+
+(def hard-tab-to-space
+  "
+  - Tabs vs Spaces
+    - https://guide.clojure.style/#spaces
+  "
+  {:pred (fn [zloc]
+           (and
+             (u.zip/whitespace? zloc)
+             (str/includes? (r.zip/string zloc) "\t")))
+   :edit (fn [zloc]
+           (->
+             zloc
+             (r.zip/remove*)
+             (r.z.whitespace/insert-space-right)))})
 
 (def comma
   "
