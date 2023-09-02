@@ -35,21 +35,41 @@
              (r.zip/replace* zloc (r.node/newlines 1))
              (r.zip/remove* zloc)))})
 
-(def space-around-comma
+(def comma
+  "
+  - No Commas in Sequential Collection Literals
+    - https://guide.clojure.style/#no-commas-for-seq-literals
+  - Optional Commas in Map Literals
+    - https://guide.clojure.style/#opt-commas-in-map-literals
+  "
   {:pred (fn [zloc]
            (u.zip/comma? zloc))
    :edit (fn [zloc]
-           (cond-> zloc
-             (r.zip/whitespace? (r.zip/left* zloc))
-             (->
-               (r.zip/left*)
-               (r.zip/remove*))
+           (let [in-map? (-> zloc (r.zip/up) (r.zip/tag) (= :map))
+                 right-linebreak? (-> zloc (r.zip/right*) (r.zip/linebreak?))
+                 right-whitespace? (-> zloc (r.zip/right*) (u.zip/whitespace?))]
+             (cond-> zloc
+               (r.zip/whitespace? (r.zip/left* zloc))
+               (->
+                 (r.zip/left*)
+                 (r.zip/remove*))
 
-             (not (r.zip/whitespace? (r.zip/right* zloc)))
-             (r.z.whitespace/insert-space-right)
+               (and
+                 in-map?
+                 (not right-linebreak?)
+                 (not right-whitespace?))
+               (r.z.whitespace/insert-space-right)
 
-             (r.zip/linebreak? (r.zip/right* zloc))
-             (r.zip/remove*)))})
+               (or
+                 right-linebreak?
+                 (not in-map?))
+               (r.zip/remove*)
+
+               (and
+                 (not in-map?)
+                 (not right-linebreak?)
+                 (not right-whitespace?))
+               (r.z.whitespace/insert-space-right))))})
 
 (def indent
   {:pred (fn [zloc]

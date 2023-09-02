@@ -65,15 +65,23 @@
       "(foo)"
       "(\nfoo)")))
 
-(t/deftest space-around-comma-test
-  (let [test-rule* (partial test-rule sut/space-around-comma)]
+(t/deftest comma-test
+  (let [test-rule* (partial test-rule sut/comma)]
     (test-rule*
-      "foo, bar"
-      "foo , bar")
+      "foo bar baz"
+      "foo,bar, baz")
 
     (test-rule*
-      "foo, bar"
-      "foo,bar")
+      "(foo bar baz)"
+      "(foo,bar, baz)")
+
+    (test-rule*
+      "[foo bar baz]"
+      "[foo,bar, baz]")
+
+    (test-rule*
+      "{foo bar, foo bar, foo bar\nfoo bar, foo bar foo bar}"
+      "{foo bar,foo bar, foo bar,\nfoo bar , foo bar foo bar}")
 
     (test-rule*
       "foo\nbar"

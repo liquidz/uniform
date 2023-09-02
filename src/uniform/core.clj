@@ -11,7 +11,7 @@
       (u.rule/apply-rules [u.rule/missing-whitespace
                            u.rule/too-many-spaces
                            u.rule/too-many-linebreaks
-                           u.rule/space-around-comma])
+                           u.rule/comma])
       (u.rule/apply-rules [u.rule/indent])
       (r.node/string)))
 
