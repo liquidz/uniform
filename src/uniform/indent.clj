@@ -15,11 +15,6 @@
 
 (defn- indent*
   [zloc {:keys [offset]}]
-  (println "prev" (-> zloc
-                      (r.zip/leftmost*)
-                      (u.zip/previous-line))
-           "tag" (r.zip/tag zloc)
-           "node-str" (u.zip/node-str zloc))
   (let [n (-> zloc
               (r.zip/leftmost*)
               (u.zip/previous-line)
@@ -35,7 +30,6 @@
   [zloc]
   (let [up-tag (some-> zloc (r.zip/up) (r.zip/tag))
         leftmost-tag (some-> zloc (r.zip/leftmost) (r.zip/tag))]
-    (println "up-tag" up-tag "leftmost tag" leftmost-tag)
     (cond
       (or
         ;; e.g. ([] ...), ((fn [] ...) ...)
@@ -52,6 +46,4 @@
       (indent* zloc {:offset 1})
 
       :else
-      (do
-        (println "up-tag" up-tag ", leftmost-tag" leftmost-tag)
-        zloc))))
+      zloc)))
