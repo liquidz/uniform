@@ -114,10 +114,15 @@
       (recur (r.zip/next* (f zloc))))))
 
 (defn apply-rules
-  [node rules]
-  (-> node
-      (r.zip/of-node* {:track-position? true})
-      (prewalk* #(if-let [{:keys [edit]} (matching-rule % rules)]
-                   (edit %)
-                   %))
-      (r.zip/root)))
+  ([node rules]
+   (apply-rules node identity rules))
+  ([node f rules]
+   (let [zloc (-> node
+                  (r.zip/of-node* {:track-position? true}))]
+     (r.zip/root
+       (if-let [zloc' (f zloc)]
+         (-> zloc'
+             (prewalk* #(if-let [{:keys [edit]} (matching-rule % rules)]
+                          (edit %)
+                          %)))
+         zloc)))))
