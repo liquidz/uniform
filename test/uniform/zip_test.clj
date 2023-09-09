@@ -9,6 +9,23 @@
   [zloc]
   (r.zip/find-value zloc r.zip/next 'TARGET))
 
+(t/deftest expression?-test
+  (t/is (true? (-> (h/parse "foo")
+                   (r.zip/next*)
+                   (sut/expression?))))
+  (t/is (true? (-> (h/parse "(foo)")
+                   (r.zip/next*)
+                   (sut/expression?))))
+  (t/is (false? (-> (h/parse " ")
+                    (r.zip/next*)
+                    (sut/expression?))))
+  (t/is (false? (-> (h/parse "\t")
+                    (r.zip/next*)
+                    (sut/expression?))))
+  (t/is (false? (-> (h/parse "\n")
+                    (r.zip/next*)
+                    (sut/expression?)))))
+
 (t/deftest whitespace?-test
   (let [whitespace?-test #(->
                             (h/parse %)

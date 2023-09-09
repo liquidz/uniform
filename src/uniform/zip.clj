@@ -31,7 +31,8 @@
   [zloc]
   (and
     zloc
-    (not (r.zip/whitespace-or-comment? zloc))))
+    (not (r.zip/whitespace-or-comment? zloc))
+    (not (r.zip/linebreak? zloc))))
 
 (defn comma?
   [zloc]
