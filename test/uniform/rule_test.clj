@@ -73,25 +73,30 @@
 
 (t/deftest comma-test
   (let [test-rule* (partial test-rule sut/comma)]
-    (test-rule*
-      "foo bar baz"
-      "foo,bar, baz")
+    (t/testing "not map"
+      (test-rule*
+        "foo bar baz"
+        "foo,bar, baz")
 
-    (test-rule*
-      "(foo bar baz)"
-      "(foo,bar, baz)")
+      (test-rule*
+        "(foo bar)"
+        "(foo , bar)")
 
-    (test-rule*
-      "[foo bar baz]"
-      "[foo,bar, baz]")
+      (test-rule*
+        "(foo bar baz)"
+        "(foo,bar, baz)")
+      (test-rule*
+        "[foo bar baz]"
+        "[foo,bar, baz]")
 
-    (test-rule*
-      "{foo bar, foo bar, foo bar\nfoo bar, foo bar foo bar}"
-      "{foo bar,foo bar, foo bar,\nfoo bar , foo bar foo bar}")
+      (test-rule*
+        "foo\nbar"
+        "foo,\nbar"))
 
-    (test-rule*
-      "foo\nbar"
-      "foo,\nbar")))
+    (t/testing "map"
+      (test-rule*
+        "{foo bar, foo bar, foo bar\nfoo bar, foo bar foo bar}"
+        "{foo bar,foo bar, foo bar,\nfoo bar , foo bar foo bar}"))))
 
 (t/deftest hard-tab-to-space-test
   (let [test-rule* (partial test-rule sut/hard-tab-to-space)]

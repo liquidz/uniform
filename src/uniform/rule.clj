@@ -61,31 +61,36 @@
   {:pred (fn [zloc]
            (u.zip/comma? zloc))
    :edit (fn [zloc]
-           (let [in-map? (-> zloc (r.zip/up) (r.zip/tag) (= :map))
-                 right-linebreak? (-> zloc (r.zip/right*) (r.zip/linebreak?))
-                 right-whitespace? (-> zloc (r.zip/right*) (u.zip/whitespace?))]
-             (cond-> zloc
-               (r.zip/whitespace? (r.zip/left* zloc))
-               (->
-                 (r.zip/left*)
-                 (r.zip/remove*))
-
-               (and
-                 in-map?
-                 (not right-linebreak?)
-                 (not right-whitespace?))
-               (r.z.whitespace/insert-space-right)
-
-               (or
-                 right-linebreak?
-                 (not in-map?))
-               (r.zip/remove*)
-
-               (and
-                 (not in-map?)
-                 (not right-linebreak?)
-                 (not right-whitespace?))
-               (r.z.whitespace/insert-space-right))))})
+           (let [;; Delete spaces before commas
+                 zloc (if (r.zip/whitespace? (r.zip/left* zloc))
+                        (-> zloc
+                            (r.zip/left*)
+                            (r.zip/remove*)
+                            (r.zip/right*))
+                        zloc)
+                 ;; Remove spaces after commas
+                 zloc (if (u.zip/whitespace? (r.zip/right* zloc))
+                        (-> zloc
+                            (r.zip/right*)
+                            (r.zip/remove*))
+                        zloc)
+                 ;; Remove commas if the next node is a linebreak
+                 zloc (if (r.zip/linebreak? (r.zip/right* zloc))
+                        (r.zip/remove* zloc)
+                        zloc)
+                 ;; Insert space after commas in maps
+                 zloc (if (and
+                            (u.zip/comma? zloc)
+                            (u.zip/in-map? zloc))
+                        (r.z.whitespace/insert-space-right zloc)
+                        zloc)
+                 ;; Replace commas with spaces outside of maps
+                 zloc (if (and
+                            (u.zip/comma? zloc)
+                            (not (u.zip/in-map? zloc)))
+                        (r.zip/replace* zloc (r.node/whitespace-node " "))
+                        zloc)]
+             zloc))})
 
 (def indent
   {:pred (fn [zloc]
