@@ -1,4 +1,4 @@
-(ns uniform.string)
+(ns uniform.util.string)
 
 (defn width
   [s]

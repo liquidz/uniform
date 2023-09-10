@@ -2,7 +2,7 @@
   (:require
     [rewrite-clj.node :as r.node]
     [rewrite-clj.zip :as r.zip]
-    [uniform.string :as u.str]
+    [uniform.util.string :as u.u.str]
     [uniform.zip :as u.zip]))
 
 (defn unindent
@@ -18,7 +18,7 @@
   (let [n (-> zloc
               (r.zip/leftmost*)
               (u.zip/previous-line)
-              (u.str/width))
+              (u.u.str/width))
         n (if (pos? n)
             (+ n offset)
             n)]

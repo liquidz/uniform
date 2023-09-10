@@ -1,7 +1,7 @@
-(ns uniform.string-test
+(ns uniform.util.string-test
   (:require
     [clojure.test :as t]
-    [uniform.string :as sut]))
+    [uniform.util.string :as sut]))
 
 (t/deftest width-test
   (t/is (= 0  (sut/width "")))
