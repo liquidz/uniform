@@ -5,6 +5,7 @@
     [rewrite-clj.zip :as r.zip]
     [uniform.rule :as u.rule]
     [uniform.rule.base :as u.r.base]
+    [uniform.rule.indent :as u.r.indent]
     [uniform.rule.ns :as u.r.ns]))
 
 (defn format-code
@@ -21,7 +22,7 @@
         #(r.zip/find-value % r.zip/next 'ns)
         [u.r.ns/ns-missing-linebreaks])
       (u.rule/apply-rules
-        [u.rule/indent])
+        [u.r.indent/indent])
       (r.node/string)))
 
 (comment

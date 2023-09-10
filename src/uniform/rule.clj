@@ -1,17 +1,6 @@
 (ns uniform.rule
   (:require
-    [rewrite-clj.zip :as r.zip]
-    [uniform.indent :as u.indent]))
-
-(def indent
-  {:pred (fn [zloc]
-           (r.zip/linebreak? zloc))
-   :edit (fn [zloc]
-           (-> zloc
-               (u.indent/unindent)
-               (u.indent/indent)))})
-
-;; ==================================================
+    [rewrite-clj.zip :as r.zip]))
 
 (defn- matching-rule
   [zloc rules]
@@ -20,7 +9,8 @@
             rule))
         rules))
 
-(defn- prewalk* [zloc f]
+(defn- prewalk*
+  [zloc f]
   (loop [zloc zloc]
     (cond
       (r.zip/end? zloc)
