@@ -4,6 +4,7 @@
     [rewrite-clj.parser :as r.parser]
     [rewrite-clj.zip :as r.zip]
     [uniform.rule :as u.rule]
+    [uniform.rule.base :as u.r.base]
     [uniform.rule.ns :as u.r.ns]))
 
 (defn format-code
@@ -11,11 +12,11 @@
   (-> code
       (r.parser/parse-string-all)
       (u.rule/apply-rules
-        [u.rule/missing-whitespace
-         u.rule/hard-tab-to-space
-         u.rule/too-many-spaces
-         u.rule/too-many-linebreaks
-         u.rule/comma])
+        [u.r.base/missing-whitespace
+         u.r.base/hard-tab-to-space
+         u.r.base/too-many-spaces
+         u.r.base/too-many-linebreaks
+         u.r.base/comma])
       (u.rule/apply-rules
         #(r.zip/find-value % r.zip/next 'ns)
         [u.r.ns/ns-missing-linebreaks])
@@ -25,7 +26,10 @@
 
 (comment
   (let [org  "(ns (:require [foo] [bar]))\n(   foo , (bar(baz)  )\n\n      baz)
-             {:foo   \"  bar\"}"]
+             {:foo   \"  bar\"\n:bar baz,:baz hello,\n}"]
+    (println "..........................................")
+    (println "..........................................")
+    (println "..........................................")
     (println org)
     (println "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
     (println (format-code org))))
