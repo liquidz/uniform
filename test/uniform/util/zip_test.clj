@@ -1,9 +1,9 @@
-(ns uniform.zip-test
+(ns uniform.util.zip-test
   (:require
     [clojure.test :as t]
     [rewrite-clj.zip :as r.zip]
     [uniform.test-helper :as h]
-    [uniform.zip :as sut]))
+    [uniform.util.zip :as sut]))
 
 (defn- next-target
   [zloc]

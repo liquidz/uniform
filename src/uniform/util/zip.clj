@@ -1,4 +1,4 @@
-(ns uniform.zip
+(ns uniform.util.zip
   (:require
     [rewrite-clj.node :as r.node]
     [rewrite-clj.zip :as r.zip]))

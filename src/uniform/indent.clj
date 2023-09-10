@@ -3,13 +3,13 @@
     [rewrite-clj.node :as r.node]
     [rewrite-clj.zip :as r.zip]
     [uniform.util.string :as u.u.str]
-    [uniform.zip :as u.zip]))
+    [uniform.util.zip :as u.u.zip]))
 
 (defn unindent
   [zloc]
   (loop [zloc zloc]
     (let [next-zloc (r.zip/next* zloc)]
-      (if (u.zip/whitespace? next-zloc)
+      (if (u.u.zip/whitespace? next-zloc)
         (recur (r.zip/remove* next-zloc))
         zloc))))
 
@@ -17,7 +17,7 @@
   [zloc {:keys [offset]}]
   (let [n (-> zloc
               (r.zip/leftmost*)
-              (u.zip/previous-line)
+              (u.u.zip/previous-line)
               (u.u.str/width))
         n (if (pos? n)
             (+ n offset)
@@ -37,7 +37,7 @@
           (= :list up-tag)
           (not= :token leftmost-tag))
         ;; '(...)
-        (u.zip/in-quoted-list? zloc)
+        (u.u.zip/in-quoted-list? zloc)
         ;; collections
         (contains? #{:vector :map :set} up-tag))
       (indent* zloc {:offset 0})
