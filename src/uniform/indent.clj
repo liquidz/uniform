@@ -37,7 +37,7 @@
           (= :list up-tag)
           (not= :token leftmost-tag))
         ;; '(...)
-        (u.zip/quoted-list? zloc)
+        (u.zip/in-quoted-list? zloc)
         ;; collections
         (contains? #{:vector :map :set} up-tag))
       (indent* zloc {:offset 0})

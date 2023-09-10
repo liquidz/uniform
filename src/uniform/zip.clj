@@ -77,7 +77,7 @@
         :else
         (recur up-zloc (conj buf (node-str up-zloc)))))))
 
-(defn quoted-list?
+(defn in-quoted-list?
   [zloc]
   (let [up-zloc (r.zip/up zloc)]
     (and
