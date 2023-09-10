@@ -1,10 +1,9 @@
-(ns uniform.indent-test
+(ns uniform.util.indent-test
   (:require
     [clojure.test :as t]
     [rewrite-clj.zip :as r.zip]
-    [uniform.indent :as sut]
     [uniform.test-helper :as h]
-    [uniform.zip :as u.zip]))
+    [uniform.util.indent :as sut]))
 
 (t/deftest unindent-test
   (let [unindent #(-> (h/parse %)

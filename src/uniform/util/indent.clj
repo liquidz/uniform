@@ -1,4 +1,4 @@
-(ns uniform.indent
+(ns uniform.util.indent
   (:require
     [rewrite-clj.node :as r.node]
     [rewrite-clj.zip :as r.zip]
