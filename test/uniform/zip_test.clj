@@ -74,7 +74,7 @@
                (next-target)
                (sut/previous-line)))))
 
-(t/deftest quoted-list?
+(t/deftest quoted-list?-test
   (t/is (true? (-> (h/parse "'(foo TARGET)")
                    (next-target)
                    (sut/quoted-list?))))
@@ -84,3 +84,14 @@
   (t/is (false? (-> (h/parse "(foo TARGET)")
                     (next-target)
                     (sut/quoted-list?)))))
+
+(t/deftest in-map?-test
+  (t/is (true? (-> (h/parse "'{:foo TARGET}")
+                   (next-target)
+                   (sut/in-map?))))
+  (t/is (false? (-> (h/parse "'{:foo :bar} TARGET")
+                    (next-target)
+                    (sut/in-map?))))
+  (t/is (false? (-> (h/parse "'(:foo TARGET)")
+                    (next-target)
+                    (sut/in-map?)))))

@@ -83,3 +83,7 @@
     (and
       (= :list (some-> up-zloc (r.zip/tag)))
       (= :quote (some-> up-zloc (r.zip/up) (r.zip/tag))))))
+
+(defn in-map?
+  [zloc]
+  (-> zloc (r.zip/up) (r.zip/tag) (= :map)))
